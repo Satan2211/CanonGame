@@ -27,7 +27,7 @@ public abstract class GamePanel extends JPanel implements KeyListener{
 	
 
 	
-	public GamePanel(LevelType level, FrameType frame){
+	public GamePanel(LevelType level){
 		this.addKeyListener(this);
 		this.setFocusable(true);
 		this.requestFocusInWindow();
@@ -35,7 +35,7 @@ public abstract class GamePanel extends JPanel implements KeyListener{
 		this.addKeyListener(this);
 	}
 	
-	public static void fireBullet(Graphics g, int pow, int angle, int size) {
+	public void fireBullet(Graphics g, int pow, int angle, int size) {
 		g.setColor(new Color(255,255,0));
 		g.setColor(Color.cyan);
 		g.fillOval(xPos - size/2, yPos - size/2, size, size);
