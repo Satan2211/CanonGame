@@ -10,6 +10,10 @@ import cannonGame.LevelType;
 public class Level1 extends GameLevel {
 	//private static final long serialVersionUID = 5307606560799284583L;
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public CannonGame game;
 	private static Graphics g;
     public Level1 () {

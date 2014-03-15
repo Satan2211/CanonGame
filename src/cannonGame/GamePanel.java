@@ -24,16 +24,25 @@ public abstract class GamePanel extends JPanel implements KeyListener{
 	private int yPos 		 = physics.getyPos();    
 	private int power 		 = physics.getPower(); 
 	private int score		 = physics.getScore();
-	Bullet bullet 			 = new Bullet(this);
 	
-	public GamePanel(LevelType level){
+
+	
+	public GamePanel(LevelType level, FrameType frame){
 		this.addKeyListener(this);
 		this.setFocusable(true);
 		this.requestFocusInWindow();
 		this.setPreferredSize(new Dimension(800,625));
-	}	
+		this.addKeyListener(this);
+	}
+	
+	public static void fireBullet(Graphics g, int pow, int angle, int size) {
+		g.setColor(new Color(255,255,0));
+		g.setColor(Color.cyan);
+		g.fillOval(xPos - size/2, yPos - size/2, size, size);
+	}
+    	
 	public void paintComponent(Graphics g) {
-		erase(g);			
+		bkImage(g);			
 		if (yPos <= 475) {
 			yPos -= (int)yVelocity/100;
 			xPos += (int)xVelocity/100;    
@@ -78,7 +87,7 @@ public abstract class GamePanel extends JPanel implements KeyListener{
 		//g.drawString("X: "+xPos+" Y: "+yPos, 5, 45);
 		g.drawString("Score: " +(int)score, 5, 45);
 	}   
-	private void erase(Graphics g) {
+	private void bkImage (Graphics g) {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, 800, 625);
 		
@@ -102,11 +111,11 @@ public abstract class GamePanel extends JPanel implements KeyListener{
     		case 40:
     			physics.setPower(power -= 50);
     			break;
-//    		case 32:
-//    			xPos = 5;
-//    			yPos = 475;
-//    			xVelocity = power*Math.cos(angle * Math.PI / 180);
-//    			yVelocity = power*Math.sin(angle * Math.PI / 180);
+    		case 32:
+    			xPos = 5;
+    			yPos = 475;
+    			xVelocity = power*Math.cos(angle * Math.PI / 180);
+    			yVelocity = power*Math.sin(angle * Math.PI / 180);
     	}
 	}
 	@Override
@@ -117,4 +126,5 @@ public abstract class GamePanel extends JPanel implements KeyListener{
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub		
 	}
-}
+	}
+	

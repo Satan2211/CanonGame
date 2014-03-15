@@ -1,10 +1,10 @@
 package cannonGame;
 
 public class GamePhysics {
-	private int xPos 			 = 5;
+	private static int xPos 			 = 5;
 	private int yPos 			 = 475;
     private int power 			 = 1000;
-    private double angle 		 = 65.0;
+    private double angle 		 = 45.0;
     private double xVelocity	 = power*Math.cos(angle * Math.PI / 180), yVelocity = power*Math.sin(angle * Math.PI / 180);
     private final double GRAVITY = 9.8;
     private double wind 		 = 0.0;

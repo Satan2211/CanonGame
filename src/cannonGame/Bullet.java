@@ -7,7 +7,7 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class Bullet extends CannonGame{
+public class Bullet extends CannonGame {
 	int x = 0;
 	int y = 0;
 	int xa = 1;
@@ -21,9 +21,9 @@ public class Bullet extends CannonGame{
 	    
 	private int power 		 = physics.getPower(); 
 	
-	public Bullet(GamePanel gamePanel){
-		this.addKeyListener(this);
-	}
+//	public Bullet(GamePanel gamePanel){
+//		this.addKeyListener(this);
+//	}
 	
 	
 
