@@ -25,7 +25,7 @@ public class viewQuestions extends JFrame {
 		    e= rs.getString("Email");
 		    //Object[][]data={{n,e}};
 		    // This will add row from the DB as the last row in the JTable. 
-		    model.insertRow(jtable1.getRowCount(), new Object[] {n, e});
+		    model.insertRow(table.getRowCount(), new Object[] {n, e});
 		}
 		
 		table = new JTable();

@@ -19,7 +19,7 @@ public class DBConnect {
 //	}
 //
 //	}
-//	
+//	  
 	try{
         conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/gameDB?user=root");
     }catch(Exception ex){

@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 
+import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -11,16 +12,25 @@ import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
 
-import sqlConnection.DBConnect;
+import com.mysql.jdbc.PreparedStatement;
+
+import sqlConnection.SQLConnect;
+import sqlConnection.SQLUtility;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 
 public class InsertQuestion extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
@@ -29,21 +39,35 @@ public class InsertQuestion extends JFrame {
 	private Connection con;
 	private Statement st;
 	private ResultSet rs;
-
+	SQLUtility select = new SQLUtility();
+	
 	public InsertQuestion() {
-		DBConnect con = new DBConnect();
+		setSize(new Dimension(800,625));
+		SQLConnect con = new SQLConnect();
+		
+		
 		
 		getContentPane().setLayout(null);
 
 		JLabel lblQuestion = new JLabel("Question");
 		lblQuestion.setBounds(10, 36, 46, 14);
 		getContentPane().add(lblQuestion);
-
+		
 		JButton btnAddNewQuestion = new JButton("Add and return");
+		
 		btnAddNewQuestion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+			
+				
+				
+				
+				
+			
 			}
 		});
+		
+		ArrayList <String> categories  = (ArrayList) select.Select("SELECT category_name FROM gamecategory");
+		
 		btnAddNewQuestion.setBounds(10, 327, 109, 23);
 		getContentPane().add(btnAddNewQuestion);
 
@@ -55,16 +79,32 @@ public class InsertQuestion extends JFrame {
 		lblSelectCategory.setBounds(10, 11, 77, 14);
 		getContentPane().add(lblSelectCategory);
 
-		JComboBox comboBox = new JComboBox();
-		comboBox.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				Statement stmt = con.createStatement() ;
-				String query = "select game_category from gamecategory ;" ;
-				ResultSet rs = stmt.executeQuery(query) ;
-			}
-		});
+		
+		
+		JComboBox comboBox = new JComboBox(categories.toArray());
 		comboBox.setBounds(109, 8, 77, 20);
 		getContentPane().add(comboBox);
+		System.out.println(categories);
+
+		
+				for(String name : categories) {
+			categories.add(getName());		
+		}
+		
+		
+//		ArrayList <String> categories  = new ArrayList<String>();
+//		String query = "SELECT game_category FROM gamecategory";
+//		//SQLUtility select = new SQLUtility();
+//		PreparedStatement pst = SQLUtility.
+//		ResultSet rs = select.executeQuery();
+//		
+//		JComboBox comboBox = new JComboBox();
+//		System.out.println(cos);
+//		for(String name : cos) {
+//			cos.add(getName());		
+//		}
+				
+		
 
 		JButton btnCreateNewCategory = new JButton("Create new category");
 		btnCreateNewCategory.setBounds(196, 7, 135, 23);
@@ -85,7 +125,7 @@ public class InsertQuestion extends JFrame {
 		getContentPane().add(lblSelectCorrectAnswer);
 
 		JRadioButton rdbtnA = new JRadioButton("a)");
-		rdbtnA.setBounds(10, 165, 109, 23);
+		rdbtnA.setBounds(10, 165, 46, 23);
 		getContentPane().add(rdbtnA);
 
 		JRadioButton rdbtnB = new JRadioButton("b)");

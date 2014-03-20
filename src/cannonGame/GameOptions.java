@@ -13,10 +13,11 @@ import javax.swing.SwingUtilities;
 
 import java.awt.Dimension;
 
-import quiz.InsertQuestion;
-import quiz.viewQuestions;
+//import quiz.InsertQuestion;
+//import quiz.viewQuestions;
 
 public class GameOptions extends JPanel implements ActionListener {	
+	
 	private static final long serialVersionUID = 5986304059488866474L;
 	
 	JButton easyButton   = easyButton();
@@ -32,6 +33,8 @@ public class GameOptions extends JPanel implements ActionListener {
 		viewButton.addActionListener(this);
 		setLayout(null);
 		
+	
+		
         JPanel center = new JPanel(new GridLayout(6,1,10,10));
         center.setBounds(10, 0, 140, 165);
         center.add(new JLabel("Chose Difficulty Level"));
@@ -46,6 +49,7 @@ public class GameOptions extends JPanel implements ActionListener {
 		this.setFocusable(true);
 		this.requestFocusInWindow();
 	}
+
 	private JButton easyButton(){
 		JButton levelEasy = new JButton("Easy");
 		return levelEasy;
@@ -60,16 +64,18 @@ public class GameOptions extends JPanel implements ActionListener {
 	}
 	private JButton manageButton() {
 		JButton insertQuestion = new JButton("Manage Questions");
-		return insertQuestion;
+        return insertQuestion;
 	}
 	private JButton viewButton(){
-		JButton viewQuestions = new JButton("View Questions");
+		JButton viewQuestions = new JButton("DO NOT CLICK");
 		return viewQuestions;
 	}
 	private void disposeParentFrame(){
 		JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
 		parentFrame.dispose();
 	}
+	
+
 	
 	
 	@Override
@@ -92,14 +98,15 @@ public class GameOptions extends JPanel implements ActionListener {
 		}
 		else if(src == manageButton){
 			System.out.println("Managing Questions");
-			InsertQuestion manageButton = new quiz.InsertQuestion();
+			new quiz.InsertQuestion().setVisible(true);
 			setVisible(true);
 			disposeParentFrame();
 		}
 		else if (src == viewButton){
-			System.out.println("Available questions");
-			viewQuestions viewButton = new quiz.viewQuestions();
-			disposeParentFrame();
+			System.out.println("Viewing questions");
+			new quiz.viewQuestions().setVisible(true); 
+	        disposeParentFrame();
+		
 		}
 		else{
 			//nothing
@@ -107,4 +114,6 @@ public class GameOptions extends JPanel implements ActionListener {
 	}
 	
 	
+	
 }
+

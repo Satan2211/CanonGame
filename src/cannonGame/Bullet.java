@@ -7,11 +7,8 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class Bullet extends CannonGame {
-	int x = 0;
-	int y = 0;
-	int xa = 1;
-	int ya = 1;
+public abstract class Bullet extends CannonGame implements KeyListener{
+
 	private static GamePhysics physics = new GamePhysics();
 	private static int xPos 		 = physics.getxPos();
 	private static int yPos 		 = physics.getyPos(); 
@@ -19,16 +16,9 @@ public class Bullet extends CannonGame {
 	private double yVelocity = physics.getyVelocity();
 	private double angle 	 = physics.getAngle();
 	    
-	private int power 		 = physics.getPower(); 
-	
-//	public Bullet(GamePanel gamePanel){
-//		this.addKeyListener(this);
-//	}
-	
-	
+	private int power 		 = physics.getPower(); 	
 
 	public static void fireBullet(Graphics g, int pow, int angle, int size) {
-		g.setColor(new Color(255,255,0));
 		g.setColor(Color.cyan);
 		g.fillOval(xPos - size/2, yPos - size/2, size, size);
 	}

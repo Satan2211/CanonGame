@@ -13,8 +13,11 @@ import javax.swing.JButton;
 import com.mysql.jdbc.Connection;
 
 import sqlConnection.SQLConnect;
+import sqlConnection.SQLUtility;
 import cannonGame.CannonGame;
 import sqlConnection.DBConnect;
+import javax.swing.JTextField;
+import javax.swing.JTextPane;
 
 
 public class Quiz extends JFrame{
@@ -22,23 +25,28 @@ public class Quiz extends JFrame{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private JTextField textField;
 	
 	
 	
 	public Quiz(){
-	DBConnect con = new DBConnect();
+	SQLUtility select = new SQLUtility();
+	String str = "SELECT question FROM gamequestions";
+	String Question = (String) select.Select(str);
+	
 	
 	getContentPane().setBackground(Color.LIGHT_GRAY);
 	getContentPane().setLayout(null);
 	this.setSize(450, 325);
 	
-	JLabel lblQuestion = new JLabel("Question:");
-	lblQuestion.setBounds(10, 11, 55, 14);
-	getContentPane().add(lblQuestion);
-	
 	JPanel panel = new JPanel();
 	panel.setBounds(72, 15, 337, 69);
 	getContentPane().add(panel);
+	
+	
+	JLabel lblQuestion = new JLabel("Question:");
+	lblQuestion.setBounds(10, 11, 55, 14);
+	getContentPane().add(lblQuestion);
 	
 	JLabel lblSelectYourAnswer = new JLabel("Select your answer");
 	lblSelectYourAnswer.setBounds(10, 113, 102, 14);
@@ -79,12 +87,23 @@ public class Quiz extends JFrame{
 	JPanel panel_4 = new JPanel();
 	panel_4.setBounds(135, 212, 274, 23);
 	getContentPane().add(panel_4);
+	
+	textField = new JTextField();
+	textField.setBounds(167, 95, 86, 20);
+	getContentPane().add(textField);
+	textField.setColumns(10);
+	
+	
+	JTextPane textPane = new JTextPane();
+	textPane.setBounds(328, 95, 60, 20);
+	getContentPane().add(textPane);
 }
 	
 	public static void main(String[] args) {
 		java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Quiz().setVisible(true);
+                
                
             }
         });

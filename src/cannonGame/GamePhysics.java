@@ -1,64 +1,68 @@
 package cannonGame;
 
 public class GamePhysics {
-	private static int xPos 			 = 5;
-	private int yPos 			 = 475;
     private int power 			 = 1000;
     private double angle 		 = 45.0;
     private double xVelocity	 = power*Math.cos(angle * Math.PI / 180), yVelocity = power*Math.sin(angle * Math.PI / 180);
     private final double GRAVITY = 9.8;
-    private double wind 		 = 0.0;
     private int score 			 = 0;
+    private int ammo			 = 3;
+    private double wind			 = 0;
+    private int xPos			 = 5;
+    private int yPos			 = 475;
 	
-    public int getxPos() {
-		return xPos;
+	public int getPower() {
+		return this.power;
 	}
-	public void setxPos(int xPos) {
+	public int getxPos(){
+		return this.xPos;
+	}
+	public void setxPos(int xPos){
 		this.xPos = xPos;
 	}
-	public int getyPos() {
-		return yPos;
+	public int getyPos(){
+		return this.yPos;
 	}
-	public void setyPos(int yPos) {
+	public void setyPos(int yPos){
 		this.yPos = yPos;
-	}
-	public int getPower() {
-		return power;
 	}
 	public void setPower(int power) {
 		this.power = power;
 	}
+	public double getWind(){
+		return this.wind;
+	}
 	public double getAngle() {
-		return angle;
+		return this.angle;
 	}
 	public void setAngle(double angle) {
 		this.angle = angle;
 	}
 	public double getxVelocity() {
-		return xVelocity;
+		return this.xVelocity;
 	}
 	public void setxVelocity(double xVelocity) {
 		this.xVelocity = xVelocity;
 	}
 	public double getyVelocity() {
-		return yVelocity;
+		return this.yVelocity;
 	}
 	public void setyVelocity(double yVelocity) {
 		this.yVelocity = yVelocity;
 	}
-	public double getWind() {
-		return wind;
-	}
-	public void setWind(double wind) {
-		this.wind = wind;
-	}
 	public double getGRAVITY() {
-		return GRAVITY;
+		return this.GRAVITY;
 	}
 	public void setScore(int score){
 		this.score = score;
 	}
 	public int getScore(){
-		return score;
+		return this.score;
+	}
+	public void setAmmo(int ammo){
+		this.ammo = ammo;
+	}
+	public int getAmmo(){
+		return this.ammo;
 	}
 }

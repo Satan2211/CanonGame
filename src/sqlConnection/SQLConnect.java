@@ -29,17 +29,5 @@ public class SQLConnect {
 		}
 		return connectionInstance;
 	}
-	
-	public void getData(){
-		try{
-			String query = "select * from gameUser";
-			
-			
-		}catch(Exception ex){
-			System.out.println(ex);
-		}
-	
-	}
-	
 }
 
