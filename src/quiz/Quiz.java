@@ -1,111 +1,328 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package quiz;
 
-import javax.swing.JFrame;
-import javax.swing.JRadioButton;
-
-import java.awt.Color;
+import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.ButtonGroup;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JButton;
+/**
+ *
+ * @author Lukasz
+ */
+public class Quiz extends javax.swing.JFrame {
 
-import com.mysql.jdbc.Connection;
+    ButtonGroup answers = new ButtonGroup();
+    Connection conn = null;
+    ResultSet rs = null;
+    PreparedStatement pst = null;
+    private String selectedOption = "";
 
-import sqlConnection.SQLConnect;
-import sqlConnection.SQLUtility;
-import cannonGame.CannonGame;
-import sqlConnection.DBConnect;
-import javax.swing.JTextField;
-import javax.swing.JTextPane;
+    public Quiz() {
+        initComponents();
+        answers.add(jRadioA);
+        answers.add(jRadioB);
+        answers.add(jRadioC);
+        answers.add(jRadioD);
+        getQuestion();
+        this.setLocationRelativeTo(null);
 
+    }
 
-public class Quiz extends JFrame{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private JTextField textField;
-	
-	
-	
-	public Quiz(){
-	SQLUtility select = new SQLUtility();
-	String str = "SELECT question FROM gamequestions";
-	String Question = (String) select.Select(str);
-	
-	
-	getContentPane().setBackground(Color.LIGHT_GRAY);
-	getContentPane().setLayout(null);
-	this.setSize(450, 325);
-	
-	JPanel panel = new JPanel();
-	panel.setBounds(72, 15, 337, 69);
-	getContentPane().add(panel);
-	
-	
-	JLabel lblQuestion = new JLabel("Question:");
-	lblQuestion.setBounds(10, 11, 55, 14);
-	getContentPane().add(lblQuestion);
-	
-	JLabel lblSelectYourAnswer = new JLabel("Select your answer");
-	lblSelectYourAnswer.setBounds(10, 113, 102, 14);
-	getContentPane().add(lblSelectYourAnswer);
-	
-	JRadioButton rdbtnA = new JRadioButton("a)");
-	rdbtnA.setBounds(20, 134, 109, 23);
-	getContentPane().add(rdbtnA);
-	
-	JRadioButton rdbtnB = new JRadioButton("b:");
-	rdbtnB.setBounds(20, 160, 109, 23);
-	getContentPane().add(rdbtnB);
-	
-	JRadioButton rdbtnC = new JRadioButton("c)");
-	rdbtnC.setBounds(20, 186, 109, 23);
-	getContentPane().add(rdbtnC);
-	
-	JRadioButton rdbtnD = new JRadioButton("d)");
-	rdbtnD.setBounds(20, 212, 109, 23);
-	getContentPane().add(rdbtnD);
-	
-	JButton btnNewButton = new JButton("Submit");
-	btnNewButton.setBounds(20, 242, 89, 23);
-	getContentPane().add(btnNewButton);
-	
-	JPanel panel_1 = new JPanel();
-	panel_1.setBounds(135, 134, 274, 23);
-	getContentPane().add(panel_1);
-	
-	JPanel panel_2 = new JPanel();
-	panel_2.setBounds(135, 158, 274, 25);
-	getContentPane().add(panel_2);
-	
-	JPanel panel_3 = new JPanel();
-	panel_3.setBounds(135, 186, 274, 23);
-	getContentPane().add(panel_3);
-	
-	JPanel panel_4 = new JPanel();
-	panel_4.setBounds(135, 212, 274, 23);
-	getContentPane().add(panel_4);
-	
-	textField = new JTextField();
-	textField.setBounds(167, 95, 86, 20);
-	getContentPane().add(textField);
-	textField.setColumns(10);
-	
-	
-	JTextPane textPane = new JTextPane();
-	textPane.setBounds(328, 95, 60, 20);
-	getContentPane().add(textPane);
-}
-	
-	public static void main(String[] args) {
-		java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Quiz().setVisible(true);
-                
-               
+    private void getQuestion() {
+        try {
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/gameDB?user=root");
+        } catch (SQLException ex) {
+            System.out.println("Connection failed :" + ex);
+        }
+
+        try {
+
+            String sql = "SELECT DISTINCT question FROM gamequestions ORDER BY RAND () LIMIT 1";
+            pst = conn.prepareStatement(sql);
+            rs = pst.executeQuery();
+
+            if (rs.next()) {
+                String question = rs.getString("question");
+                jQuestion.setText(question);
+            }
+
+        } catch (Exception e) {
+            System.out.println(212312);
+            System.out.println(e);
+        }
+
+        try {
+            String Question = (jQuestion.getText());
+            String sql = "SELECT a.options FROM gameanswers a, gamequestions q WHERE q.question = '" + Question + "' AND a.question_id = q.question_id";
+            pst = conn.prepareStatement(sql);
+            rs = pst.executeQuery();
+            if (rs.next()) {
+                String option = rs.getString("options");
+                jAnswerA.setText(option);
+            }
+            if (rs.next()) {
+                String optionB = rs.getString("options");
+                jAnswerB.setText(optionB);
+            }
+            if (rs.next()) {
+                String optionC = rs.getString("options");
+                jAnswerC.setText(optionC);
+            }
+            if (rs.next()) {
+                String optionD = rs.getString("options");
+                jAnswerD.setText(optionD);
+            }
+        } catch (Exception e) {
+            System.out.println(212312);
+            System.out.println(e);
+        }
+
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+    private void initComponents() {
+
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jQuestion = new javax.swing.JTextArea();
+        jLabel2 = new javax.swing.JLabel();
+        jRadioA = new javax.swing.JRadioButton();
+        jRadioB = new javax.swing.JRadioButton();
+        jRadioC = new javax.swing.JRadioButton();
+        jRadioD = new javax.swing.JRadioButton();
+        jAnswerA = new javax.swing.JTextField();
+        jAnswerB = new javax.swing.JTextField();
+        jAnswerC = new javax.swing.JTextField();
+        jAnswerD = new javax.swing.JTextField();
+        btnSubmit = new javax.swing.JToggleButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel1.setText("Question");
+
+        jQuestion.setColumns(20);
+        jQuestion.setRows(5);
+        jScrollPane1.setViewportView(jQuestion);
+
+        jLabel2.setText("Please select your answer");
+
+        jRadioA.setText("a)");
+        jRadioA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioAActionPerformed(evt);
             }
         });
-			}
-	}
+
+        jRadioB.setText("b)");
+        jRadioB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioBActionPerformed(evt);
+            }
+        });
+
+        jRadioC.setText("c)");
+        jRadioC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioCActionPerformed(evt);
+            }
+        });
+
+        jRadioD.setText("d)");
+        jRadioD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioDActionPerformed(evt);
+            }
+        });
+
+        btnSubmit.setText("Submit");
+        btnSubmit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSubmitActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jRadioC)
+                        .addGap(18, 18, 18)
+                        .addComponent(jAnswerC))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jRadioD)
+                        .addGap(18, 18, 18)
+                        .addComponent(jAnswerD))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jRadioA, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jRadioB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jAnswerA)
+                            .addComponent(jAnswerB))))
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(160, 160, 160)
+                .addComponent(btnSubmit)
+                .addContainerGap(175, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRadioA)
+                    .addComponent(jAnswerA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRadioB)
+                    .addComponent(jAnswerB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRadioC)
+                    .addComponent(jAnswerC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRadioD)
+                    .addComponent(jAnswerD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addComponent(btnSubmit)
+                .addContainerGap())
+        );
+
+        pack();
+    }// </editor-fold>                        
+
+    private void btnSubmitActionPerformed(java.awt.event.ActionEvent evt) {                                          
+        try {
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/gameDB?user=root");
+        } catch (SQLException ex) {
+            System.out.println("Connection failed :" + ex);
+        }
+        try{
+        System.out.println(selectedOption.toString());
+        String selected = (selectedOption.toString());
+        String sql = "SELECT a.correctOption FROM  gameanswers a WHERE a.options = '" + selectedOption + "'";
+        Statement st = conn.createStatement();
+        ResultSet rs = st.executeQuery(sql);
+        rs.next();
+        if (rs.getInt(1) == 0) {
+            System.out.println("incorrect");
+        } else {
+            System.out.println("correct");
+        } }catch (Exception e) {
+            System.out.println(e);
+        }
+
+
+    }                                         
+
+    private void jRadioAActionPerformed(java.awt.event.ActionEvent evt) {                                        
+        if (jRadioA.isSelected()) {
+            selectedOption = jAnswerA.getText();
+        } else {
+        }
+    }                                       
+
+    private void jRadioBActionPerformed(java.awt.event.ActionEvent evt) {                                        
+        if (jRadioB.isSelected()) {
+            selectedOption = jAnswerB.getText();
+        } else {
+        }
+    }                                       
+
+    private void jRadioCActionPerformed(java.awt.event.ActionEvent evt) {                                        
+        if (jRadioC.isSelected()) {
+            selectedOption = jAnswerC.getText();
+        } else {
+        }
+    }                                       
+
+    private void jRadioDActionPerformed(java.awt.event.ActionEvent evt) {                                        
+        if (jRadioD.isSelected()) {
+            selectedOption = jAnswerD.getText();
+        } else {
+        }
+    }                                       
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Quiz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Quiz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Quiz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Quiz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Quiz().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify                     
+    private javax.swing.JToggleButton btnSubmit;
+    private javax.swing.JTextField jAnswerA;
+    private javax.swing.JTextField jAnswerB;
+    private javax.swing.JTextField jAnswerC;
+    private javax.swing.JTextField jAnswerD;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JTextArea jQuestion;
+    private javax.swing.JRadioButton jRadioA;
+    private javax.swing.JRadioButton jRadioB;
+    private javax.swing.JRadioButton jRadioC;
+    private javax.swing.JRadioButton jRadioD;
+    private javax.swing.JScrollPane jScrollPane1;
+    // End of variables declaration                   
+}

@@ -30,21 +30,24 @@ public abstract class GamePanel extends JPanel implements KeyListener{
 	private GamePhysics physics = new GamePhysics();
 	 
 
-	private int xPos 		 = 5;
+	private int xPos 	 = 5;
     private int yPos 		 = 475;
-//    private int yPos		 = physics.getyPos();
-//    private int xPos		 = physics.getxPos();
-   // private double wind 	 = physics.getWind();
+//  private int yPos		 = physics.getyPos();
+//  private int xPos		 = physics.getxPos();
+// 	private double wind 	 = physics.getWind();
     private double wind 	 = 0;
-	private double GRAVITY   = physics.getGRAVITY();
-	private double xVelocity = physics.getxVelocity();
-	private double yVelocity = physics.getyVelocity();
+//	private double GRAVITY   = physics.getGRAVITY();
+    final double GRAVITY = 80;
+//	private double xVelocity = physics.getxVelocity();
+//	private double yVelocity = physics.getyVelocity();
+	
 //	private double angle 	 = physics.getAngle();
 	private double angle 	 = 45;
 	private int power 		 = physics.getPower(); 
 	private int score		 = physics.getScore();
 	private int ammo		 = physics.getAmmo();
-
+	double xVelocity = power*Math.cos(angle * Math.PI / 180);
+	double yVelocity = power*Math.sin(angle * Math.PI / 180);
 
 	public GamePanel(LevelType level) {
 		this.addKeyListener(this);
@@ -52,13 +55,15 @@ public abstract class GamePanel extends JPanel implements KeyListener{
 		this.requestFocusInWindow();
 		this.setPreferredSize(new Dimension(800,625));
 		this.addKeyListener(this);
+		setLayout(null);
 	}
 		
 	
 	public void fireBullet(Graphics g, int pow, int angle, int size) {
 		g.setColor(new Color(255,255,0));
 		g.fillOval(xPos - size/2, yPos - size/2, size, size);
-	}
+		
+	}	
 	public void erase(Graphics g) {
 		g.setColor(new Color(0,0,0));
 		g.fillRect(0,0,500,500);
@@ -67,15 +72,17 @@ public abstract class GamePanel extends JPanel implements KeyListener{
 	public void paintComponent(Graphics g) {
 	
 		
-//		BufferedImage myPicture = null;
-//		try {
-//			myPicture = ImageIO.read(new File("resources/Level1Bk.jpg"));
-//		} catch (IOException e) {
-//			System.out.println(e);
-//			e.printStackTrace();
-//		}
-//		JLabel picLabel = new JLabel(new ImageIcon(myPicture));
-//		add(picLabel);
+		
+		BufferedImage myPicture = null;
+		try {
+			myPicture = ImageIO.read(new File("resources/Level1Bk.jpg"));
+		} catch (IOException e) {
+			System.out.println(e);
+			e.printStackTrace();
+		}
+		JLabel picLabel = new JLabel(new ImageIcon(myPicture));
+		add(picLabel);
+		
 		
 		
 	
@@ -87,8 +94,10 @@ public abstract class GamePanel extends JPanel implements KeyListener{
             yPos -= (int)yVelocity/100;
             xPos += (int)xVelocity/100;   
             
-            physics.setyVelocity(yVelocity - GRAVITY);
-            //physics.setxVelocity(wind);
+//            physics.setyVelocity(yVelocity - GRAVITY);
+//            physics.setxVelocity(wind);
+            yVelocity -= GRAVITY;
+            xVelocity -= wind;
             
         }
         if(Math.random() > .5) {
@@ -155,8 +164,10 @@ public abstract class GamePanel extends JPanel implements KeyListener{
 //              physics.setyPos(475);
     			xPos = 5;
     			yPos = 475;
-    			physics.setxVelocity(power*Math.cos(angle * Math.PI / 180));
-    			physics.setyVelocity(power*Math.sin(angle * Math.PI / 180));
+    			//physics.setxVelocity(power*Math.cos(angle * Math.PI / 180));
+    			//physics.setyVelocity(power*Math.sin(angle * Math.PI / 180));
+    			xVelocity = power*Math.cos(angle * Math.PI / 180);
+                yVelocity = power*Math.sin(angle * Math.PI / 180);
     			physics.setAmmo(ammo -1);
     			break;
     		case 27:

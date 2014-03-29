@@ -1,158 +1,410 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package quiz;
-
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JButton;
-
-import java.awt.Dimension;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-import javax.swing.JComboBox;
-import javax.swing.JTextField;
-import javax.swing.JRadioButton;
-
-import com.mysql.jdbc.PreparedStatement;
-
-import sqlConnection.SQLConnect;
-import sqlConnection.SQLUtility;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
+import javax.swing.ButtonGroup;
+import net.proteanit.sql.DbUtils;
+import sqlConnection.DBConnect;
 
+/**
+ *
+ * @author Lukasz
+ */
+public class InsertQuestion extends javax.swing.JFrame {
 
-public class InsertQuestion extends JFrame {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private Connection con;
-	private Statement st;
-	private ResultSet rs;
-	SQLUtility select = new SQLUtility();
-	
-	public InsertQuestion() {
-		setSize(new Dimension(800,625));
-		SQLConnect con = new SQLConnect();
-		
-		
-		
-		getContentPane().setLayout(null);
+    Connection conn = null;
+    ResultSet rs = null;
+    PreparedStatement pst = null;
+    ButtonGroup answers = new ButtonGroup();
+    private int correctOptionA = 0;
+    private int correctOptionB = 0;
+    private int correctOptionC = 0;
+    private int correctOptionD = 0;
+    
+    
+    public InsertQuestion() {
+        initComponents();
+        answers.add(jRadioA);
+        answers.add(jRadioB);
+        answers.add(jRadioC);
+        answers.add(jRadioD);
+        //conn = DBConnect();
+        FillComboBox();
+        this.setLocationRelativeTo(null);
+        
 
-		JLabel lblQuestion = new JLabel("Question");
-		lblQuestion.setBounds(10, 36, 46, 14);
-		getContentPane().add(lblQuestion);
-		
-		JButton btnAddNewQuestion = new JButton("Add and return");
-		
-		btnAddNewQuestion.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			
-				
-				
-				
-				
-			
-			}
-		});
-		
-		ArrayList <String> categories  = (ArrayList) select.Select("SELECT category_name FROM gamecategory");
-		
-		btnAddNewQuestion.setBounds(10, 327, 109, 23);
-		getContentPane().add(btnAddNewQuestion);
+    }
+    private void FillComboBox() {
+        try {
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/gameDB?user=root");
+        } catch (SQLException ex) {
+            System.out.println("Connection failed :" + ex);
+        }
 
-		JButton btnAddAndCreate = new JButton("Add and create a new question");
-		btnAddAndCreate.setBounds(129, 327, 183, 23);
-		getContentPane().add(btnAddAndCreate);
+        try {
+            System.out.println("trying");
+            String sql = "SELECT category_name FROM gamecategory";
+            pst = conn.prepareStatement(sql);
+            rs = pst.executeQuery();
+            System.out.println("trying2222");
 
-		JLabel lblSelectCategory = new JLabel("Select Category");
-		lblSelectCategory.setBounds(10, 11, 77, 14);
-		getContentPane().add(lblSelectCategory);
+            while (rs.next()) {
+                String name = rs.getString("category_name");
+                jComboBox1.addItem(name);
+            }
 
-		
-		
-		JComboBox comboBox = new JComboBox(categories.toArray());
-		comboBox.setBounds(109, 8, 77, 20);
-		getContentPane().add(comboBox);
-		System.out.println(categories);
+        } catch (SQLException e) {
+            System.out.println(e);
 
-		
-				for(String name : categories) {
-			categories.add(getName());		
-		}
-		
-		
-//		ArrayList <String> categories  = new ArrayList<String>();
-//		String query = "SELECT game_category FROM gamecategory";
-//		//SQLUtility select = new SQLUtility();
-//		PreparedStatement pst = SQLUtility.
-//		ResultSet rs = select.executeQuery();
-//		
-//		JComboBox comboBox = new JComboBox();
-//		System.out.println(cos);
-//		for(String name : cos) {
-//			cos.add(getName());		
-//		}
-				
-		
+        }
 
-		JButton btnCreateNewCategory = new JButton("Create new category");
-		btnCreateNewCategory.setBounds(196, 7, 135, 23);
-		getContentPane().add(btnCreateNewCategory);
+    }
 
-		textField = new JTextField();
-		textField.setBounds(10, 59, 377, 70);
-		getContentPane().add(textField);
-		textField.setColumns(10);
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+    private void initComponents() {
 
-		textField_1 = new JTextField();
-		textField_1.setBounds(65, 166, 322, 20);
-		getContentPane().add(textField_1);
-		textField_1.setColumns(10);
+        jDialog2 = new javax.swing.JDialog();
+        jLabel2 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox();
+        jButton1 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jRadioA = new javax.swing.JRadioButton();
+        jRadioB = new javax.swing.JRadioButton();
+        jRadioC = new javax.swing.JRadioButton();
+        jRadioD = new javax.swing.JRadioButton();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
+        jTextField3 = new javax.swing.JTextField();
+        jTextField4 = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
-		JLabel lblSelectCorrectAnswer = new JLabel("Select correct answer");
-		lblSelectCorrectAnswer.setBounds(10, 140, 104, 14);
-		getContentPane().add(lblSelectCorrectAnswer);
+        javax.swing.GroupLayout jDialog2Layout = new javax.swing.GroupLayout(jDialog2.getContentPane());
+        jDialog2.getContentPane().setLayout(jDialog2Layout);
+        jDialog2Layout.setHorizontalGroup(
+            jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jDialog2Layout.setVerticalGroup(
+            jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
 
-		JRadioButton rdbtnA = new JRadioButton("a)");
-		rdbtnA.setBounds(10, 165, 46, 23);
-		getContentPane().add(rdbtnA);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Create a new question");
+        setPreferredSize(new java.awt.Dimension(525, 475));
+        setResizable(false);
 
-		JRadioButton rdbtnB = new JRadioButton("b)");
-		rdbtnB.setBounds(10, 202, 46, 23);
-		getContentPane().add(rdbtnB);
+        jLabel2.setText("Select category");
 
-		JRadioButton rdbtnC = new JRadioButton("c)");
-		rdbtnC.setBounds(10, 241, 46, 23);
-		getContentPane().add(rdbtnC);
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
-		JRadioButton rdbtnD = new JRadioButton("d)");
-		rdbtnD.setBounds(10, 282, 46, 23);
-		getContentPane().add(rdbtnD);
+        jButton1.setText("Create a new category");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
-		textField_2 = new JTextField();
-		textField_2.setBounds(65, 203, 322, 20);
-		getContentPane().add(textField_2);
-		textField_2.setColumns(10);
+        jLabel3.setText("Question");
 
-		textField_3 = new JTextField();
-		textField_3.setBounds(65, 242, 322, 20);
-		getContentPane().add(textField_3);
-		textField_3.setColumns(10);
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jTextArea1.setWrapStyleWord(true);
+        jTextArea1.setLineWrap(true);
+        jScrollPane1.setViewportView(jTextArea1);
+        jScrollPane1.setHorizontalScrollBarPolicy(jScrollPane1.HORIZONTAL_SCROLLBAR_NEVER);
+        
+        
+        jLabel4.setText("Select correct answer");
+        jLabel5.setText("Possible answers");
 
-		textField_4 = new JTextField();
-		textField_4.setBounds(65, 283, 322, 20);
-		getContentPane().add(textField_4);
-		textField_4.setColumns(10);
-	}
+        jRadioA.setText("a)");
+        jRadioA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioAActionPerformed(evt);
+            }
+        });
+
+        jRadioB.setText("b)");
+        jRadioB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioBActionPerformed(evt);
+            }
+        });
+
+        jRadioC.setText("c)");
+        jRadioC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioCActionPerformed(evt);
+            }
+        });
+
+        jRadioD.setText("d)");
+        jRadioD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioDActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Submit");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("Return to menu");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton1))
+                            .addComponent(jLabel3))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jRadioA)
+                            .addComponent(jRadioB)
+                            .addComponent(jRadioC)
+                            .addComponent(jRadioD)
+                            .addComponent(jButton2))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jButton3))
+                            .addComponent(jTextField1)
+                            .addComponent(jTextField2)
+                            .addComponent(jTextField3)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jTextField4))))
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRadioA)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRadioB)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRadioC)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRadioD)
+                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2)
+                    .addComponent(jButton3))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        pack();
+    }// </editor-fold>                        
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {                                           
+        // TODO add your handling code here:
+    }                                          
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        new CreateCategory().setVisible(true);
+        this.setVisible(false);
+    }                                        
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        
+        try {
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/gameDB?user=root");
+        } catch (SQLException ex) {
+            System.out.println("Connection failed :" + ex);
+        }
+
+        try {
+            Statement stmt = conn.createStatement();
+            String Combo_click = (jComboBox1.getSelectedItem().toString());
+            String Text = (jTextArea1.getText());
+            String SQL2 = "INSERT INTO gamequestions (question_id, category_id, question) SELECT NULL, c.category_id, '" + Text + "' FROM gamecategory c WHERE c.category_name = '" + Combo_click + "' ORDER BY c.category_id LIMIT 1";
+            stmt.addBatch(SQL2); 
+            int[] count = stmt.executeBatch();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        try {
+            Statement stmt = conn.createStatement();
+            String Text = (jTextArea1.getText());
+            String CorrectA = (jTextField1.getText());
+            String CorrectB = (jTextField2.getText());
+            String CorrectC = (jTextField3.getText());
+            String CorrectD = (jTextField4.getText());
+            
+            
+            
+            String SQL3 = "Insert INTO gameanswers (correctOption, options, question_id) SELECT '"+correctOptionA+"', '"+ CorrectA +"', q.question_id FROM gamequestions q, gameanswers a WHERE q.question = '" +Text+"' LIMIT 1";
+            stmt.addBatch(SQL3);
+            String SQL4 = "Insert INTO gameanswers (correctOption, options, question_id) SELECT '"+correctOptionB+"', '"+ CorrectB +"', q.question_id FROM gamequestions q, gameanswers a WHERE q.question = '" +Text+"' LIMIT 1";
+            stmt.addBatch(SQL4);
+            String SQL5 = "Insert INTO gameanswers (correctOption, options, question_id) SELECT '"+correctOptionC+"', '"+ CorrectC +"', q.question_id FROM gamequestions q, gameanswers a WHERE q.question = '" +Text+"' LIMIT 1";
+            stmt.addBatch(SQL5);
+            String SQL6 = "Insert INTO gameanswers (correctOption, options, question_id) SELECT '"+correctOptionD+"', '"+ CorrectD +"', q.question_id FROM gamequestions q, gameanswers a WHERE q.question = '" +Text+"' LIMIT 1";
+            stmt.addBatch(SQL6);
+            int[] count = stmt.executeBatch();
+        } catch (Exception e) {
+            System.out.println(e);}
+        System.out.println("submited");
+        new InsertQuestion().setVisible(true);
+        this.setVisible(false);
+    }                                        
+
+    private void jRadioAActionPerformed(java.awt.event.ActionEvent evt) {                                        
+            if(jRadioA.isSelected()){
+                     correctOptionA = 1;
+            }else{correctOptionA = 0;}
+    }                                       
+
+    private void jRadioBActionPerformed(java.awt.event.ActionEvent evt) {                                        
+      if(jRadioB.isSelected()){
+                    int correctOptionB = 1;
+            }else{int correctOptionB = 0;}
+    }                                       
+
+    private void jRadioCActionPerformed(java.awt.event.ActionEvent evt) {                                        
+        if(jRadioC.isSelected()){
+                    int correctOptionC = 1;
+            }else{int correctOptionC = 0;}
+    }                                       
+
+    private void jRadioDActionPerformed(java.awt.event.ActionEvent evt) {                                        
+        if(jRadioD.isSelected()){
+                    int correctOptionD = 1;
+            }else{int correctOptionD = 0;}
+    }                                       
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    	this.setVisible(false);
+    	new cannonGame.GameOptions().setVisible(true);
+        
+    }                                        
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(InsertQuestion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(InsertQuestion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(InsertQuestion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(InsertQuestion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new InsertQuestion().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify                     
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JDialog jDialog2;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JRadioButton jRadioA;
+    private javax.swing.JRadioButton jRadioB;
+    private javax.swing.JRadioButton jRadioC;
+    private javax.swing.JRadioButton jRadioD;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
+    // End of variables declaration                   
+
 }
